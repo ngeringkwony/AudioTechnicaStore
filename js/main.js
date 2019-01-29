@@ -1,4 +1,4 @@
-let playerName = document.querySelector('div.item-name h1 span');
+let playerName = document.querySelector('div.item-name h2');
 let specList = Array.from(document.querySelectorAll('.right ul li'));
 let price = document.querySelector('h2.price');
 let image = document.querySelector('div.item-image img');
@@ -7,6 +7,7 @@ let count = 0;
 let playersArray = null;
 let next = document.querySelector('div.next');
 let previous = document.querySelector('div.previous');
+let endOfList = false;
 
 fetch('../api/recordplayers.json')
     .then(
@@ -26,23 +27,29 @@ fetch('../api/recordplayers.json')
                     specList[4].textContent = recordPlayers[count].cartridge;
                     price.textContent = `$ ${recordPlayers[count].price}`;
                     image.src = recordPlayers[count].image.url;
-                    // model.textContent = recordPlayers[count].model;
                     playersArray = recordPlayers.slice();
-                    
+
                     return recordPlayers;
                 })
                 .then(function (recordPlayers) {
 
                     next.addEventListener('click', () => {
-                        count == recordPlayers.length - 1 ? console.log("End of List") : count++;
-                        updateView(recordPlayers, count);
-                        animateCSS();
+                        // count == recordPlayers.length - 1 ? endOfList = true : count++;
+                        if (count < recordPlayers.length - 1) {
+                            count++;
+                            updateView(recordPlayers, count);
+                            animateCSS();
+                        }
+
                     });
 
                     previous.addEventListener('click', () => {
-                        count > 0 ? count-- : console.log("End of List");
-                        updateView(recordPlayers, count);
-                        animateCSS();
+                        // count > 0 ? count-- : endOfList = true;
+                        if (count > 0) {
+                            count--;
+                            updateView(recordPlayers, count);
+                            animateCSS();
+                        }
                     });
                 })
         }
@@ -58,12 +65,14 @@ function updateView(recordPlayers, count) {
     specList[4].textContent = recordPlayers[count].cartridge;
     price.textContent = `$ ${recordPlayers[count].price}`;
     image.src = recordPlayers[count].image.url;
-    // model.textContent = recordPlayers[count].model;
 }
 
+
+//handle repeat animations after loading
 function animateCSS() {
+    console.log(endOfList);
     specList.forEach(el => el.classList.add('animated', 'fadeInUp', 'fast'));
-    playerName.classList.add('animated', 'bounce', 'fast');
+    playerName.classList.add('animated', 'fadeInUp', 'fast');
     price.classList.add('animated', 'fadeInUp', 'fast');
     image.classList.add('animated', 'fadeInRight', '3s');
     addToCart.classList.add('animated', 'fadeInUp', 'fast');
@@ -72,7 +81,7 @@ function animateCSS() {
 
     function handleAnimationEnd() {
         specList.forEach(el => el.classList.remove('animated', 'fadeInUp', 'fast'));
-        playerName.classList.remove('animated', 'fade', 'fast');
+        playerName.classList.remove('animated', 'fadeInUp', 'fast');
         price.classList.remove('animated', 'fadeInUp', 'fast');
         image.classList.remove('animated', 'fadeInRight', '3s');
         addToCart.classList.remove('animated', 'fadeInUp', 'fast');
@@ -92,4 +101,5 @@ function animateCSS() {
     price.addEventListener('animationend'.handleAnimationEnd);
     image.addEventListener('animationend'.handleAnimationEnd);
     addToCart.addEventListener('animationend'.handleAnimationEnd);
+
 }

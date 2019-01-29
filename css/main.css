@@ -17,7 +17,6 @@
 .guides>* {
     height: 100vh;
     width: 1px;
-    /* border-right:2px solid #d24145; */
     background-color: #ff8080;
     margin-left: 16.6%;
 }
@@ -99,7 +98,6 @@ div.icon {
     grid-area: description;
     height: 100%;
     width: 100%;
-    /* background-color: white; */
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -111,15 +109,15 @@ div.item-name {
     margin: 2em 0;
 }
 
-div.item-name h1 {
+div.item-name > * {
     font-family: 'Oswald', sans-serif;
     font-weight: normal;
     font-size: 5em;
     line-height: 100%;
 }
 
-div.item-name h1>* {
-    font-size: .7em
+div.item-name h2 {
+    font-size: 3.5em
 }
 
 h2.specs-title {
